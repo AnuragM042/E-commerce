@@ -1,14 +1,15 @@
 import React, { useContext } from 'react'
 import myContext from '../../context/data/MyContext'
+import { Link } from 'react-router-dom'
 
 const ProductCard = () => {
     const context = useContext(myContext)
     const {mode} = context
   return (
     <div>
-        <div className='flex gap-2 justify-center items-center mt-5 flex-wrap flex-row overflow-x-scroll md:overflow-clip'>
-{/* 1st Card Starts */}
-<div class="w-full min-w-[300px] max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className='flex gap-2 sm:justify-center items-center mt-5  flex-row w-full overflow-x-auto '>
+{/* 1nd card starts */}
+<div class="w-full min-w-[300px]  max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <a href="#">
         <img class="p-8 rounded-t-lg" src="/docs/images/products/apple-watch.png" alt="product image" />
     </a>
@@ -40,9 +41,10 @@ const ProductCard = () => {
             <span class="text-3xl font-bold text-gray-900 dark:text-white">$599</span>
             <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
         </div>
+       
     </div>
 </div>
-{/* 2nd card starts */}
+{/* 2rd Card starts */}
 <div class="w-full min-w-[300px]  max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <a href="#">
         <img class="p-8 rounded-t-lg" src="/docs/images/products/apple-watch.png" alt="product image" />
@@ -77,7 +79,7 @@ const ProductCard = () => {
         </div>
     </div>
 </div>
-{/* 3rd Card starts */}
+{/* 3rd card */}
 <div class="w-full min-w-[300px]  max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <a href="#">
         <img class="p-8 rounded-t-lg" src="/docs/images/products/apple-watch.png" alt="product image" />
@@ -112,6 +114,8 @@ const ProductCard = () => {
         </div>
     </div>
 </div>
+{/* 4th Card */}
+
  </div>
   {/* Cards end */}
   </div>
