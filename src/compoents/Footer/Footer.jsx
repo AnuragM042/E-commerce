@@ -7,7 +7,7 @@ const Footer = () => {
 
   return (
     <div
-      className='flex flex-wrap mx-auto items-center justify-evenly py-5'
+      className='flex flex-wrap mx-auto items-center justify-evenly py-5 h-full'
       style={{
         color: mode === 'dark' ? 'white' : 'white',
         backgroundColor: mode === 'dark' ? 'grey' : 'black'

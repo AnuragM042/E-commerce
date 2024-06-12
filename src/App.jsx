@@ -11,6 +11,9 @@ import MyState from './context/data/MyState'
 import Login from './pages/Registration/Login'
 import Signup from './pages/Registration/Signup'
 import Productinfo from './pages/productinfo/Productinfo'
+import Modal from './compoents/modal/Modal'
+import AddProduct from './pages/admin/page/AddProduct'
+import UpdateProduct from './pages/admin/page/UpdateProduct'
 
 
 function App() {
@@ -28,6 +31,9 @@ function App() {
           <Route path='/login' element={<Login />}/>
           <Route path='/signup' element={<Signup />}/>
           <Route path='/productinfo/:id' element={<Productinfo />}/>
+          <Route path='/modal' element={<Modal />}/>
+          <Route path='/addproduct' element={<AddProduct />}/>
+          <Route path='/updateproduct' element={<UpdateProduct />}/>
           <Route path='/*' element={ <NoPage />} />
         </Routes>
       </Router>

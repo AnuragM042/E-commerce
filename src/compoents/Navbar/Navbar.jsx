@@ -17,7 +17,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`border-b-2 border-black fixed h-[80px] top-0 w-full z-50 ${mode === 'dark' ? 'bg-gray-900' : 'bg-white'} text-${mode === 'dark' ? 'white' : 'black'}`}>
+    <nav className={`border-b-2 border-black fixed h-[80px]  top-0 w-full z-50 ${mode === 'dark' ? 'bg-gray-900' : 'bg-white'} text-${mode === 'dark' ? 'white' : 'black'}`}>
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -128,9 +128,11 @@ const Navbar = () => {
             <button className="focus:outline-none">
               <FaCartArrowDown size={30} />
             </button>
+            <NavLink to={'/dashboard'}>
             <button className="focus:outline-none">
               <RxAvatar size={30} />
             </button>
+            </NavLink>
           </div>
         </div>
       </div>
