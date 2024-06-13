@@ -14,6 +14,8 @@ import Productinfo from './pages/productinfo/Productinfo'
 import Modal from './compoents/modal/Modal'
 import AddProduct from './pages/admin/page/AddProduct'
 import UpdateProduct from './pages/admin/page/UpdateProduct'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -36,6 +38,7 @@ function App() {
           <Route path='/updateproduct' element={<UpdateProduct />}/>
           <Route path='/*' element={ <NoPage />} />
         </Routes>
+        <ToastContainer />
       </Router>
     </MyState>
      
