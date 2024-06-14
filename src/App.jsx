@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {
-  BrowserRouter as Router, Route,Routes
+  BrowserRouter as Router, Route,Routes,
+  Navigate
 } from 'react-router-dom'
 import Home from './pages/home/Home'
 import Order from './pages/Order/Order'
@@ -48,3 +49,18 @@ function App() {
 
 export default App
 
+// User
+ export const ProtectedRoute = ({children}) => {
+  const user = loacalStorage.getItem('user')
+  if(user){
+   return children 
+  } else {
+    return <Navigate to={'/login'} />
+  }
+}
+
+// admin 
+
+const ProtectedRouteForAdmin = () => {
+    
+}
