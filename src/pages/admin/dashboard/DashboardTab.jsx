@@ -19,7 +19,7 @@ function DashboardTab() {
     }
     return (
         <>
-            <div className="container mx-auto">
+            <div className="container h-screen mx-auto">
                 <div className="tab container mx-auto ">
                     <Tabs defaultIndex={0} className=" " >
                         <TabList className="md:flex md:space-x-8  grid grid-cols-2 text-center gap-4   md:justify-center mb-10 ">
