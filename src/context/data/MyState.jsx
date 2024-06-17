@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import MyContext from "./MyContext";
 import {
-  QuerySnapshot,
   Timestamp,
   addDoc,
   collection,
-  doc,
   onSnapshot,
   orderBy,
+  query,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { fireDB } from "../../firebase/FirebaseConfig";
@@ -30,12 +29,12 @@ const MyState = (props) => {
   const [loading, setLoading] = useState(false);
 
   const [products, setProducts] = useState({
-    title: null,
-    price: null,
-    imageUrl: null,
-    category: null,
-    description: null,
-    time: Timestamp.now,
+    title: "",
+    price: "",
+    imageUrl: "",
+    category: "",
+    description: "",
+    time: Timestamp.now(),
     date: new Date().toLocaleString("en-US", {
       month: "short",
       day: "2-digit",
@@ -45,13 +44,14 @@ const MyState = (props) => {
 
   const addProduct = async () => {
     if (
-      products.title == null ||
-      products.price == null ||
-      products.imageUrl == null ||
-      products.category == null ||
-      products.description == null
+      !products.title ||
+      !products.price ||
+      !products.imageUrl ||
+      !products.category ||
+      !products.description
     ) {
-      toast.error("Please Fill ALl Fields ");
+      toast.error("Please Fill ALL Fields");
+      return; // Add return to stop execution if fields are not filled
     }
     setLoading(true);
 
@@ -59,6 +59,9 @@ const MyState = (props) => {
       const productRef = collection(fireDB, "products");
       await addDoc(productRef, products);
       toast.success("Products Added");
+      setTimeout(() => {
+         window.location.href = '/dashboard'
+      }, 800);
       getProductData();
     } catch (error) {
       console.log(error);
@@ -69,36 +72,40 @@ const MyState = (props) => {
   const [product, setProduct] = useState([]);
 
   const getProductData = async () => {
-     setLoading(true)
+    setLoading(true);
     try {
       const q = query(collection(fireDB, "products"), orderBy("time"));
-
-      const data = onSnapshot(1, (QuerySnapshot) => {
+      const data = onSnapshot(q, (QuerySnapshot) => {
         let productArray = [];
         QuerySnapshot.forEach((doc) => {
           productArray.push({ ...doc.data(), id: doc.id });
         });
         setProduct(productArray);
-        setLoading(false)
+        setLoading(false);
       });
-
-      return () => data;
     } catch (error) {
       console.log(error);
-      setLoading(false)
+      setLoading(false);
     }
   };
 
-
-
- useEffect(() => {
-  getProductData
- }, []);
+  useEffect(() => {
+    getProductData();
+  }, []);
 
   return (
-    <MyContext.Provider value={{ mode, toggleMode, loading, setLoading,
-      products,setProducts,addProduct,product
-     }}>
+    <MyContext.Provider
+      value={{
+        mode,
+        toggleMode,
+        loading,
+        setLoading,
+        products,
+        setProducts,
+        addProduct,
+        product,
+      }}
+    >
       {props.children}
     </MyContext.Provider>
   );
