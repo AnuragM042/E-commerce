@@ -5,6 +5,7 @@ import { IoMdSunny } from "react-icons/io";
 import { MdNightlight } from "react-icons/md";
 import MyContext from "../../context/data/MyContext";
 import { RxAvatar } from "react-icons/rx";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const context = useContext(MyContext);
@@ -17,12 +18,14 @@ const Navbar = () => {
   };
 
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user.user.email);
+  // console.log(user.user.email);
 
   const logout = () => {
     localStorage.clear("user");
     window.location.href = "/login";
   };
+
+  const cartItems = useSelector((state) => state.cart);
 
   return (
     <nav
@@ -143,8 +146,9 @@ const Navbar = () => {
                 <MdNightlight size={30} />
               )}
             </button>
-            <button className="focus:outline-none">
+            <button className="focus:outline-none flex">
               <FaCartArrowDown size={30} />
+              {cartItems.length}
             </button>
             <NavLink to={""}>
               <button className="focus:outline-none">

@@ -4,9 +4,12 @@ import {
   Timestamp,
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   onSnapshot,
   orderBy,
   query,
+  setDoc
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { fireDB } from "../../firebase/FirebaseConfig";
@@ -51,7 +54,7 @@ const MyState = (props) => {
       !products.description
     ) {
       toast.error("Please Fill ALL Fields");
-      return; // Add return to stop execution if fields are not filled
+      return; //  return to stop execution if fields are not filled
     }
     setLoading(true);
 
@@ -93,6 +96,43 @@ const MyState = (props) => {
     getProductData();
   }, []);
 
+  // Update Product 
+
+  // June 18
+
+  const edithandle = async(item) => {
+     setProducts(item)
+  }
+
+  const updateProduct = async (item) => {
+    setLoading(true)
+    try {
+      await setDoc(doc(fireDB,"products", products.id), products);
+      toast.success("Update Successfull")
+      getProductData()
+      setLoading(false)
+      setTimeout(() => {
+        window.location.href = '/dashboard'
+     }, 800);
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
+    }
+  }
+
+  const deleteProduct = async(item) => {
+      setLoading(true)
+         try {
+          await deleteDoc(doc(fireDB,"products",item.id));
+          toast.success("Product Deleted")
+          getProductData();
+          setLoading(false)
+         } catch (error) {
+           console.log(error)
+           setLoading(false)
+         }
+  }
+
   return (
     <MyContext.Provider
       value={{
@@ -104,6 +144,9 @@ const MyState = (props) => {
         setProducts,
         addProduct,
         product,
+        edithandle,
+        updateProduct,
+        deleteProduct
       }}
     >
       {props.children}
