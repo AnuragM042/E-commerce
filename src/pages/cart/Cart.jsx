@@ -4,12 +4,14 @@ import Layout from "../../compoents/Layout/Layout";
 import Modal from "../../compoents/modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../compoents/loader/Loader";
+import { deleteFromCart } from "../../redux/CartSlice";
+import { toast } from "react-toastify";
 
 function Cart() {
   const context = useContext(myContext);
   const { mode } = context;
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const cartItems = useSelector((state) => state.cart);
   const [loading, setLoading] = useState(true);
@@ -33,7 +35,10 @@ function Cart() {
     return <Loader />;
   }
 
-
+  const deleteCart = (item) => {
+    dispatch(deleteFromCart(item));
+    toast.success("Cart deleted");
+  };
 
   return (
     <Layout>
@@ -48,10 +53,10 @@ function Cart() {
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-2/3 overflow-y-auto">
             {cartItems.map((item, index) => {
-              const { title, price, description, imageUrl } = item;
+              const {id, title, price, description, imageUrl } = item;
               return (
                 <div
-                  key={index}
+                  // key={id}
                   className="justify-between mb-6 rounded-lg border drop-shadow-xl bg-white p-6 sm:flex sm:justify-start"
                   style={{
                     backgroundColor: mode === "dark" ? "rgb(32 33 34)" : "",
@@ -84,8 +89,12 @@ function Cart() {
                         {price}
                       </p>
                     </div>
-                    <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
+                    <div
+                      
+                      className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6"
+                    >
                       <svg
+                      onClick={()=>deleteCart(item)}
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
