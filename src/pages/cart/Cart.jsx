@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../compoents/loader/Loader";
 import { deleteFromCart } from "../../redux/CartSlice";
 import { toast } from "react-toastify";
+import { addDoc } from "firebase/firestore";
 
 function Cart() {
   const context = useContext(myContext);
@@ -16,34 +17,104 @@ function Cart() {
   const cartItems = useSelector((state) => state.cart);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const imageLoadPromises = cartItems.map((item) => {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.src = item.imageUrl;
-        img.onload = resolve;
-        img.onerror = resolve; // Resolve on error as well to avoid infinite loading
-      });
-    });
-
-    Promise.all(imageLoadPromises).then(() => {
-      setLoading(false);
-    });
-  }, [cartItems]);
-
-  if (loading) {
-    return <Loader />;
-  }
-
   const deleteCart = (item) => {
     dispatch(deleteFromCart(item));
     toast.success("Cart deleted");
   };
 
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  useEffect(() => {
+    let temp = 0;
+    cartItems.forEach((cartItem) => {
+      temp += parseInt(cartItem.price);
+    });
+    setTotalAmount(temp);
+  }, [cartItems]);
+
+  const shipping = 100;
+  const grandTotal = shipping + totalAmount;
+
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const buyNow = async () => {
+    if (!name || !address || !pincode || !phoneNumber) {
+      toast.error("All Fields Are Required", {
+        position: "top-center",
+        autoClose: 1000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
+
+    const addressInfo = {
+      name,
+      address,
+      pincode,
+      phoneNumber,
+      date: new Date().toLocaleString("en-US", {
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+      }),
+    };
+
+    var options = {
+      key: "", // Add your Razorpay key here
+      key_secret: "", // Add your Razorpay secret here
+      amount: grandTotal * 100,
+      currency: "INR",
+      order_receipt: "order_rcptid_" + name,
+      name: "Star-wars",
+      description: "for testing purpose",
+      handler: async function (response) {
+        toast.success("Payment Successful");
+        const paymentId = response.razorpay_payment_id;
+
+        const orderInfo = {
+          cartItems,
+          addressInfo,
+          date: new Date().toLocaleString("en-US", {
+            month: "short",
+            day: "2-digit",
+            year: "numeric",
+          }),
+          email: JSON.parse(localStorage.getItem("user")).user.email,
+          userid: JSON.parse(localStorage.getItem("user")).user.uid,
+          paymentId,
+        };
+
+        try {
+          const orderRef = collection(fireDB, "orders");
+          await addDoc(orderRef, orderInfo);
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    const pay = new window.Razorpay(options);
+    pay.open();
+  };
+
   return (
     <Layout>
       <div
-        className="bg-gray-100 pt-5 "
+        className="bg-gray-100 pt-5"
         style={{
           backgroundColor: mode === "dark" ? "#282c34" : "",
           color: mode === "dark" ? "white" : "",
@@ -53,10 +124,10 @@ function Cart() {
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-2/3 overflow-y-auto">
             {cartItems.map((item, index) => {
-              const {id, title, price, description, imageUrl } = item;
+              const { id, title, price, description, imageUrl } = item;
               return (
                 <div
-                  // key={id}
+                  key={index} // Ensure unique key prop
                   className="justify-between mb-6 rounded-lg border drop-shadow-xl bg-white p-6 sm:flex sm:justify-start"
                   style={{
                     backgroundColor: mode === "dark" ? "rgb(32 33 34)" : "",
@@ -89,18 +160,15 @@ function Cart() {
                         {price}
                       </p>
                     </div>
-                    <div
-                      
-                      className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6"
-                    >
+                    <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                       <svg
-                      onClick={()=>deleteCart(item)}
+                        onClick={() => deleteCart(item)}
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
                         stroke="currentColor"
-                        className="w-6 h-6"
+                        className="w-6 h-6 cursor-pointer"
                       >
                         <path
                           strokeLinecap="round"
@@ -133,7 +201,7 @@ function Cart() {
                 className="text-gray-700"
                 style={{ color: mode === "dark" ? "white" : "" }}
               >
-                ₹100
+                {totalAmount}
               </p>
             </div>
             <div className="flex justify-between">
@@ -147,7 +215,7 @@ function Cart() {
                 className="text-gray-700"
                 style={{ color: mode === "dark" ? "white" : "" }}
               >
-                ₹20
+                {shipping}
               </p>
             </div>
             <hr className="my-4" />
@@ -158,17 +226,25 @@ function Cart() {
               >
                 Total
               </p>
-              <div className>
+              <div>
                 <p
                   className="mb-1 text-lg font-bold"
                   style={{ color: mode === "dark" ? "white" : "" }}
                 >
-                  ₹200
+                  {grandTotal}
                 </p>
               </div>
             </div>
-            {/* <Modal  /> */}
-            <Modal />
+            {/* <Modal /> */}
+            <Modal
+              name={name}
+              pincode={pincode}
+              phoneNumber={phoneNumber}
+              setName={setName}
+              setPincode={setPincode}
+              setPhoneNumber={setPhoneNumber}
+              buyNow={buyNow}
+            />
           </div>
         </div>
       </div>

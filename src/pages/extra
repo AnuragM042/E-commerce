@@ -1,1 +1,9 @@
- style={{ backgroundImage: `url(${background})` }}
+import React, { useContext, useState, useEffect } from "react";
+import myContext from "../../context/data/MyContext";
+import Layout from "../../compoents/Layout/Layout";
+import Modal from "../../compoents/modal/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../../compoents/loader/Loader";
+import { deleteFromCart } from "../../redux/CartSlice";
+import { toast } from "react-toastify";
+import { addDoc } from "firebase/firestore";

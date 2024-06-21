@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { FaBars, FaTimes, FaCartArrowDown } from "react-icons/fa";
 import { IoMdSunny } from "react-icons/io";
@@ -6,6 +6,7 @@ import { MdNightlight } from "react-icons/md";
 import MyContext from "../../context/data/MyContext";
 import { RxAvatar } from "react-icons/rx";
 import { useSelector } from "react-redux";
+import Cart from "../../pages/cart/Cart";
 
 const Navbar = () => {
   const context = useContext(MyContext);
@@ -18,8 +19,7 @@ const Navbar = () => {
   };
 
   const user = JSON.parse(localStorage.getItem("user"));
-  // console.log(user.user.email);
-
+  
   const logout = () => {
     localStorage.clear("user");
     window.location.href = "/login";
@@ -27,9 +27,14 @@ const Navbar = () => {
 
   const cartItems = useSelector((state) => state.cart);
 
+  // Log cartItems to debug
+  useEffect(() => {
+    console.log('cartItems:', cartItems);
+  }, [cartItems]);
+
   return (
     <nav
-      className={`border-b-2 border-black fixed h-[80px]  top-0 w-full z-50 ${
+      className={`border-b-2 border-black fixed h-[80px] top-0 w-full z-50 ${
         mode === "dark" ? "bg-gray-900" : "bg-white"
       } text-${mode === "dark" ? "white" : "black"}`}
     >
@@ -103,7 +108,6 @@ const Navbar = () => {
                   </NavLink>
                 )}
                 <NavLink
-                  onClick=""
                   to="/Extra1"
                   className={({ isActive }) =>
                     isActive
@@ -146,10 +150,14 @@ const Navbar = () => {
                 <MdNightlight size={30} />
               )}
             </button>
-            <button className="focus:outline-none flex">
-              <FaCartArrowDown size={30} />
-              {cartItems.length}
-            </button>
+            {/* Cart Icon */}
+            <NavLink to="/cart">
+              <button className="focus:outline-none flex">
+                <FaCartArrowDown size={30} />
+                {cartItems.length}
+              </button>
+            </NavLink>
+            {/* Avataar Icon */}
             <NavLink to={""}>
               <button className="focus:outline-none">
                 <RxAvatar size={30} />

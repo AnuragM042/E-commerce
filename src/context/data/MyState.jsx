@@ -6,10 +6,12 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
-  setDoc
+  setDoc,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { fireDB } from "../../firebase/FirebaseConfig";
@@ -63,7 +65,7 @@ const MyState = (props) => {
       await addDoc(productRef, products);
       toast.success("Products Added");
       setTimeout(() => {
-         window.location.href = '/dashboard'
+        window.location.href = "/dashboard";
       }, 800);
       getProductData();
     } catch (error) {
@@ -96,42 +98,90 @@ const MyState = (props) => {
     getProductData();
   }, []);
 
-  // Update Product 
+  // Update Product
 
   // June 18
 
-  const edithandle = async(item) => {
-     setProducts(item)
-  }
+  const edithandle = async (item) => {
+    setProducts(item);
+  };
 
   const updateProduct = async (item) => {
-    setLoading(true)
+    setLoading(true);
     try {
-      await setDoc(doc(fireDB,"products", products.id), products);
-      toast.success("Update Successfull")
-      getProductData()
-      setLoading(false)
+      await setDoc(doc(fireDB, "products", products.id), products);
+      toast.success("Update Successfull");
+      getProductData();
+      setLoading(false);
       setTimeout(() => {
-        window.location.href = '/dashboard'
-     }, 800);
+        window.location.href = "/dashboard";
+      }, 800);
     } catch (error) {
-      console.log(error)
-      setLoading(false)
+      console.log(error);
+      setLoading(false);
     }
-  }
+  };
 
-  const deleteProduct = async(item) => {
-      setLoading(true)
-         try {
-          await deleteDoc(doc(fireDB,"products",item.id));
-          toast.success("Product Deleted")
-          getProductData();
-          setLoading(false)
-         } catch (error) {
-           console.log(error)
-           setLoading(false)
-         }
-  }
+  const deleteProduct = async (item) => {
+    setLoading(true);
+    try {
+      await deleteDoc(doc(fireDB, "products", item.id));
+      toast.success("Product Deleted");
+      getProductData();
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const [order, setOrder] = useState([]);
+
+  const getOrderData = async () => {
+    setLoading(true);
+    try {
+      const result = await getDocs(collection(fireDB, "orders"));
+      const orderArray = [];
+      result.forEach((doc) => {
+        orderArray.push(doc.data());
+        setLoading(false);
+      });
+      setOrder(orderArray);
+      console.log(orderArray);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  const [user, setUser] = useState([]);
+
+  const getUserData = async () => {
+    setLoading(true);
+    try {
+      const result = await getDocs(collection(fireDB, "users"));
+      const usersArray = [];
+      result.forEach((doc) => {
+        usersArray.push(doc.data());
+        setLoading(false);
+      });
+      setUser(usersArray);
+      console.log(usersArray);
+    } 
+    catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getOrderData();
+    getUserData();
+  }, []);
+
+
+  
 
   return (
     <MyContext.Provider
@@ -146,7 +196,9 @@ const MyState = (props) => {
         product,
         edithandle,
         updateProduct,
-        deleteProduct
+        deleteProduct,
+        order,
+        user,
       }}
     >
       {props.children}
