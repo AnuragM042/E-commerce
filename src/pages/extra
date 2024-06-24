@@ -7,3 +7,24 @@ import Loader from "../../compoents/loader/Loader";
 import { deleteFromCart } from "../../redux/CartSlice";
 import { toast } from "react-toastify";
 import { addDoc } from "firebase/firestore";
+
+import React, { useContext, useEffect, useState } from "react";
+import Layout from "../../compoents/Layout/Layout";
+import myContext from "../../context/data/MyContext";
+import { useParams, useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { doc, getDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import { addToCart } from "../../redux/CartSlice";
+import { fireDB } from "../../firebase/FirebaseConfig";
+
+producyinfo 
+import React, { useContext, useEffect, useState } from "react";
+import Layout from "../../compoents/Layout/Layout";
+import myContext from "../../context/data/MyContext";
+import { useParams, useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { doc, getDoc, getDocs, collection } from "firebase/firestore";
+import { toast } from "react-toastify";
+import { addToCart } from "../../redux/CartSlice";
+import { fireDB } from "../../firebase/FirebaseConfig";

@@ -13,12 +13,14 @@ import NoPage from "./pages/nopage/NoPage";
 import MyState from "./context/data/MyState";
 import Login from "./pages/Registration/Login";
 import Signup from "./pages/Registration/Signup";
+import Fancy from "./pages/Registration/Fancy";
 import Productinfo from "./pages/productinfo/Productinfo";
 import Modal from "./compoents/modal/Modal";
 import AddProduct from "./pages/admin/page/AddProduct";
 import UpdateProduct from "./pages/admin/page/UpdateProduct";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AllProducts from "./pages/allprodcts/AllProducts";
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/allproducts" element={<AllProducts />} />
             {/*for Users*/}
             <Route
               path="/order"
@@ -60,6 +63,7 @@ function App() {
             />
             <Route path="/modal" element={<Modal />} />
             <Route path="/addproduct" element={<AddProduct />} />
+            <Route path="/fancy" element={<Fancy/>} />
             <Route path="/updateproduct" element={<UpdateProduct />} />
             <Route path="/*" element={<NoPage />} />
           </Routes>

@@ -7,6 +7,7 @@ import MyContext from "../../context/data/MyContext";
 import { RxAvatar } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import Cart from "../../pages/cart/Cart";
+import logo from "../../assets/logo2.webp";
 
 const Navbar = () => {
   const context = useContext(MyContext);
@@ -57,9 +58,13 @@ const Navbar = () => {
             </button>
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
-            <div className="flex flex-shrink-0 items-center">
-              <img className="h-8 w-auto" alt="Logo" />
+             <NavLink
+              to="/"
+             >
+             <div className="flex w-[150px]   items-center">
+              <img className="h-10 w-[90px]" src={logo} alt="Logo" />
             </div>
+             </NavLink>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 <NavLink

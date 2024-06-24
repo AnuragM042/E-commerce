@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import logo from "../../assets/Starwars-logo.webp";
-import backgroundVideo from "../../assets/order-symbol2.mov";
+import backgroundVideo from "../../assets/real-background2.mp4";
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../../context/data/MyContext";
@@ -35,17 +35,19 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="">
+       
       {loading && <Loader />}
       <div className="relative flex h-screen w-full items-center justify-center">
-        <video
-          autoPlay
-          loop
-          muted
-          className="absolute z-0 w-full h-full object-cover"
-        >
-          <source src={backgroundVideo} type="video/mp4" />
-        </video>
+      <video
+  autoPlay
+  loop
+  muted
+  className="absolute z-0 w-full h-full object-cover transform rotate-0"
+>
+  <source src={backgroundVideo} type="video/mp4" />
+</video>
+
         <div className="absolute z-10 flex h-screen w-full items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="relative rounded-xl bg-transparent px-8 py-10 md:px-16 lg:px-24 xl:px-32 max-sm:px-4">
             <div className="text-white">
