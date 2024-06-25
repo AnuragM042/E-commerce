@@ -6,7 +6,6 @@ import { MdNightlight } from "react-icons/md";
 import MyContext from "../../context/data/MyContext";
 import { RxAvatar } from "react-icons/rx";
 import { useSelector } from "react-redux";
-import Cart from "../../pages/cart/Cart";
 import logo from "../../assets/logo2.webp";
 
 const Navbar = () => {
@@ -20,7 +19,7 @@ const Navbar = () => {
   };
 
   const user = JSON.parse(localStorage.getItem("user"));
-  
+
   const logout = () => {
     localStorage.clear("user");
     window.location.href = "/login";
@@ -30,7 +29,7 @@ const Navbar = () => {
 
   // Log cartItems to debug
   useEffect(() => {
-    console.log('cartItems:', cartItems);
+    console.log("cartItems:", cartItems);
   }, [cartItems]);
 
   return (
@@ -58,13 +57,11 @@ const Navbar = () => {
             </button>
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
-             <NavLink
-              to="/"
-             >
-             <div className="flex w-[150px]   items-center">
-              <img className="h-10 w-[90px]" src={logo} alt="Logo" />
-            </div>
-             </NavLink>
+            <NavLink to="/fancy">
+              <div className="flex w-[150px] items-center">
+                <img className="h-10 w-[90px]" src={logo} alt="Logo" />
+              </div>
+            </NavLink>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 <NavLink
@@ -113,26 +110,6 @@ const Navbar = () => {
                   </NavLink>
                 )}
                 <NavLink
-                  to="/Extra1"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "bg-gray-700 text-white rounded-md px-2 py-2 text-sm font-medium"
-                      : " hover:bg-gray-700 hover:text-white rounded-md px-2 py-2 text-sm font-medium"
-                  }
-                >
-                  Extra1
-                </NavLink>
-                <NavLink
-                  to="/Extra2"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "bg-gray-700 text-white rounded-md px-2 py-2 text-sm font-medium"
-                      : " hover:bg-gray-700 hover:text-white rounded-md px-2 py-2 text-sm font-medium"
-                  }
-                >
-                  Extra2
-                </NavLink>
-                <NavLink
                   to="/login"
                   className={({ isActive }) =>
                     isActive
@@ -163,7 +140,7 @@ const Navbar = () => {
               </button>
             </NavLink>
             {/* Avataar Icon */}
-            <NavLink to={""}>
+            <NavLink to="">
               <button className="focus:outline-none">
                 <RxAvatar size={30} />
               </button>
@@ -172,7 +149,12 @@ const Navbar = () => {
         </div>
       </div>
       {/* Mobile Section */}
-      <div className={`sm:hidden ${nav ? "block" : "hidden"}`} id="mobile-menu">
+      <div
+        className={`sm:hidden bg-${mode === "dark" ? "gray-900" : "white"} ${
+          nav ? "block" : "hidden"
+        }`}
+        id="mobile-menu"
+      >
         <div className="space-y-1 px-2 pb-3 pt-2">
           <NavLink
             exact="true"
@@ -223,28 +205,6 @@ const Navbar = () => {
               Admin
             </NavLink>
           )}
-          <NavLink
-            to="/Extra1"
-            className={({ isActive }) =>
-              isActive
-                ? "bg-gray-700 text-white block rounded-md px-2 py-2 text-base font-medium"
-                : "hover:bg-gray-700 hover:text-white block rounded-md px-2 py-2 text-base font-medium"
-            }
-            onClick={() => setNav(false)}
-          >
-            Extra1
-          </NavLink>
-          <NavLink
-            to="/Extra2"
-            className={({ isActive }) =>
-              isActive
-                ? "bg-gray-700 text-white block rounded-md px-2 py-2 text-base font-medium"
-                : "hover:bg-gray-700 hover:text-white block rounded-md px-2 py-2 text-base font-medium"
-            }
-            onClick={() => setNav(false)}
-          >
-            Extra2
-          </NavLink>
           <NavLink
             to="/login"
             className={({ isActive }) =>

@@ -1,129 +1,99 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaUserTie } from "react-icons/fa";
-import myContext from "../../../context/data/MyContext";
+import MyContext from "../../../context/data/MyContext";
 import Layout from "../../../compoents/Layout/Layout";
 import DashboardTab from "./DashboardTab";
 
 function Dashboard() {
-  const context = useContext(myContext);
-  const { mode } = context;
+  const context = useContext(MyContext);
+  const { mode, product, order, user } = context;
+
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [totalOrders, setTotalOrders] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
+
+  useEffect(() => {
+    setTotalProducts(product.length);
+    setTotalOrders(order.length);
+    setTotalUsers(user.length);
+  }, [product, order, user]);
+
+  const textColor = mode === "dark" ? "white" : "black";
+  const iconColor = mode === "dark" ? "blue-400" : "blue-600";
+  const shadowColor = mode === "dark" ? "shadow-blue-600" : "shadow-blue-300";
+  const backgroundColor = mode === "dark" ? "rgb(46 49 55)" : "bg-gray-100";
+
   return (
     <Layout>
-      <section className="text-gray-600 body-font mt-10 mb-10 ">
+      <section className="text-gray-600 body-font mt-10 mb-10 min-h-screen max-h-full">
         <div className="container px-5 mx-auto mb-10">
-          <div className="flex flex-wrap -m-4 text-center">
+          <div className="flex flex-wrap -m-4 text-center justify-center">
             <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
               <div
-                className=" border-2 hover:shadow-purple-600 shadow-[inset_0_0_10px_rgba(0,0,0,0.6)] bg-gray-100 border-gray-300    px-4 py-3 rounded-xl"
-                style={{
-                  backgroundColor: mode === "dark" ? "rgb(46 49 55)" : "",
-                  color: mode === "dark" ? "white" : "",
-                }}
+                className={`border-2 hover:${shadowColor} shadow-[inset_0_0_10px_rgba(0,0,0,0.6)] ${backgroundColor} border-gray-300 px-4 py-3 rounded-xl`}
+                style={{ color: textColor }}
               >
                 <div
-                  className="text-purple-500 w-12 h-12 mb-3 inline-block"
+                  className={`text-${iconColor} w-12 h-12 mb-3 inline-block`}
                   viewBox="0 0 24 24"
                 >
                   <FaUserTie size={50} />
                 </div>
                 <h2
-                  className="title-font font-medium text-3xl text-black fonts1"
-                  style={{ color: mode === "dark" ? "white" : "" }}
+                  className="title-font font-medium text-3xl fonts1"
+                  style={{ color: textColor }}
                 >
-                  10
+                  {totalProducts}
                 </h2>
-                <p
-                  className=" text-purple-500  font-bold"
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                >
+                <p className="font-bold" style={{ color: textColor }}>
                   Total Products
                 </p>
               </div>
             </div>
             <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
               <div
-                className=" border-2 hover:shadow-purple-600 shadow-[inset_0_0_10px_rgba(0,0,0,0.6)] bg-gray-100 border-gray-300    px-4 py-3 rounded-xl"
-                style={{
-                  backgroundColor: mode === "dark" ? "rgb(46 49 55)" : "",
-                  color: mode === "dark" ? "white" : "",
-                }}
+                className={`border-2 hover:${shadowColor} shadow-[inset_0_0_10px_rgba(0,0,0,0.6)] ${backgroundColor} border-gray-300 px-4 py-3 rounded-xl`}
+                style={{ color: textColor }}
               >
                 <div
-                  className="text-purple-500 w-12 h-12 mb-3 inline-block"
+                  className={`text-${iconColor} w-12 h-12 mb-3 inline-block`}
                   viewBox="0 0 24 24"
                 >
                   <FaUserTie size={50} />
                 </div>
                 <h2
-                  className="title-font font-medium text-3xl text-black fonts1"
-                  style={{ color: mode === "dark" ? "white" : "" }}
+                  className="title-font font-medium text-3xl fonts1"
+                  style={{ color: textColor }}
                 >
-                  10
+                  {totalOrders}
                 </h2>
-                <p
-                  className=" text-purple-500  font-bold"
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                >
+                <p className="font-bold" style={{ color: textColor }}>
                   Total Orders
                 </p>
               </div>
             </div>
             <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
               <div
-                className=" border-2 hover:shadow-purple-600 shadow-[inset_0_0_10px_rgba(0,0,0,0.6)] bg-gray-100 border-gray-300    px-4 py-3 rounded-xl"
-                style={{
-                  backgroundColor: mode === "dark" ? "rgb(46 49 55)" : "",
-                  color: mode === "dark" ? "white" : "",
-                }}
+                className={`border-2 hover:${shadowColor} shadow-[inset_0_0_10px_rgba(0,0,0,0.6)] ${backgroundColor} border-gray-300 px-4 py-3 rounded-xl`}
+                style={{ color: textColor }}
               >
                 <div
-                  className="text-purple-500 w-12 h-12 mb-3 inline-block"
+                  className={`text-${iconColor} w-12 h-12 mb-3 inline-block`}
                   viewBox="0 0 24 24"
                 >
                   <FaUserTie size={50} />
                 </div>
                 <h2
-                  className="title-font font-medium text-3xl text-black fonts1"
-                  style={{ color: mode === "dark" ? "white" : "" }}
+                  className="title-font font-medium text-3xl fonts1"
+                  style={{ color: textColor }}
                 >
-                  20
+                  {totalUsers}
                 </h2>
-                <p
-                  className=" text-purple-500  font-bold"
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                >
+                <p className="font-bold" style={{ color: textColor }}>
                   Total Users
                 </p>
               </div>
             </div>
-            {/* <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
-              <div
-                className=" border-2 hover:shadow-purple-600 shadow-[inset_0_0_10px_rgba(0,0,0,0.6)] bg-gray-100 border-gray-300    px-4 py-3 rounded-xl"
-                style={{
-                  backgroundColor: mode === "dark" ? "rgb(46 49 55)" : "",
-                  color: mode === "dark" ? "white" : "",
-                }}
-              >
-                <div
-                  className="text-purple-500 w-12 h-12 mb-3 inline-block"
-                  viewBox="0 0 24 24"
-                >
-                  <FaUserTie size={50} />
-                </div>
-                <h2
-                  className="title-font font-medium text-3xl text-black fonts1"
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                >
-                  20
-                </h2>
-                <p
-                  className=" text-purple-500  font-bold"
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                >
-                  Total Products
-                </p>
-              </div>
-            </div> */}
           </div>
         </div>
         <DashboardTab />

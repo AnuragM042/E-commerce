@@ -52,13 +52,13 @@ function App() {
             />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            {/* For Admins  */}
+            
             <Route
               path="/productinfo/:id"
               element={
-                <ProtectedRouteForAdmin>
+                <ProtectedRoute>
                   <Productinfo />
-                </ProtectedRouteForAdmin>
+                </ProtectedRoute>
               }
             />
             <Route path="/modal" element={<Modal />} />
@@ -78,7 +78,7 @@ export default App;
 
 // User
 export const ProtectedRoute = ({ children }) => {
-  const user = loacalStorage.getItem("user");
+  const user = localStorage.getItem("user");
   if (user) {
     return children;
   } else {

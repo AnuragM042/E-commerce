@@ -49,9 +49,9 @@ function ProductCard() {
             className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900"
             style={{ color: mode === "dark" ? "white" : "" }}
           >
-            Our Latest Collection
+            Check out the Goodies 
           </h1>
-          <div className="h-1 w-20 bg-pink-600 rounded"></div>
+          <div className="h-1 w-28  rounded" style={{ backgroundColor: mode === "dark" ? "white" : "black" }}></div>
         </div>
 
         <div className="flex  -m-4 overflow-x-auto">
