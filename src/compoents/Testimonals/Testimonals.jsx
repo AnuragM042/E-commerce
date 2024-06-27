@@ -17,7 +17,7 @@ const Testimonals = () => {
     autoplay: true,
     speed: 4000,
     autoplaySpeed: 4000,
-    cssEase: 'linear',
+    cssEase: "linear",
     arrows: false,
     responsive: [
       {
@@ -58,9 +58,17 @@ const Testimonals = () => {
   ];
 
   return (
-    <div className="mt-5  py-10" style={{ color: mode === "dark" ? "black" : "" }}>
+    <div
+      className="mt-5  py-10 opacity-100"
+      style={{ color: mode === "dark" ? "black" : "" }}
+    >
       <div>
-        <h1 className="text-center font-bold text-2xl mb-10">Testimonials</h1>
+        <h1
+          className="text-center font-bold text-2xl mb-10"
+          style={{ color: mode === "dark" ? "white" : "brown" }}
+        >
+          Testimonials
+        </h1>
       </div>
       <div className="flex justify-center">
         <div className="w-full max-w-[1200px]">

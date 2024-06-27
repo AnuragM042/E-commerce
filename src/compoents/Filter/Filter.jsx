@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import MyContext from "../../context/data/MyContext";
 
 function Filter() {
@@ -14,11 +14,23 @@ function Filter() {
     product,
   } = context;
 
+  const isFilterActive = searchkey || filterType || filterPrice;
+
+  const handleReset = () => {
+    setSearchkey("");
+    setFilterType("");
+    setFilterPrice("");
+  };
+
+  useEffect(() => {
+    console.log("Filters:", { searchkey, filterType, filterPrice });
+  }, [searchkey, filterType, filterPrice]);
+
   return (
     <div>
-      <div className=" container mx-auto px-4 mt-5 ">
+      <div className="container mx-auto px-4 mt-5 w-[50%]">
         <div
-          className="p-5 rounded-lg bg-gray-100 drop-shadow-xl border border-gray-200"
+          className="p-5 rounded-lg bg-gray-100 bg-transparent drop-shadow-xl border border-gray-200"
           style={{
             backgroundColor: mode === "dark" ? "#282c34" : "",
             color: mode === "dark" ? "white" : "",
@@ -43,7 +55,7 @@ function Filter() {
               name="searchkey"
               id="searchkey"
               placeholder="Search here"
-              className="px-8 py-3 w-full rounded-md bg-violet-0 border-transparent outline-0 text-sm"
+              className="px-8 py-3 w-full rounded-md border-transparent outline-0 text-sm"
               style={{
                 backgroundColor: mode === "dark" ? "rgb(64 66 70)" : "",
                 color: mode === "dark" ? "white" : "",
@@ -51,12 +63,18 @@ function Filter() {
             />
           </div>
           <div className="flex items-center justify-between mt-4">
-            <p className="font-medium">Filters</p>
+            <p className="font-medium text-white">Filters</p>
             <button
-              className="px-4 py-2   text-gray-800 text-sm font-medium rounded-md"
+              onClick={handleReset}
+              disabled={!isFilterActive}
+              className={`px-4 py-2 text-gray-800 text-sm font-medium rounded-md transition-opacity duration-300 ${
+                isFilterActive
+                  ? "opacity-100 cursor-pointer"
+                  : "opacity-50 cursor-not-allowed"
+              }`}
               style={{
-                color: mode === "dark" ? "black" : "",
-                backgroundColor: mode === "dark" ? "white" : "",
+                color: mode === "dark" ? "black" : "white",
+                backgroundColor: mode === "dark" ? "white" : "black",
               }}
             >
               Reset Filter
@@ -74,9 +92,13 @@ function Filter() {
                 }}
               >
                 <option value="">Select Category</option>
-                {product.map((item, index) => {
-                  return <option value={item.category}>{item.category}</option>;
-                })}
+                {Array.from(new Set(product.map((item) => item.category))).map(
+                  (category, index) => (
+                    <option key={index} value={category}>
+                      {category}
+                    </option>
+                  )
+                )}
               </select>
               <select
                 value={filterPrice}
@@ -87,10 +109,14 @@ function Filter() {
                   color: mode === "dark" ? "white" : "",
                 }}
               >
-                <option value="">Select Price </option>
-                {product.map((item, index) => {
-                  return <option value={item.price}>{item.price}</option>;
-                })}
+                <option value="">Select Price</option>
+                {Array.from(new Set(product.map((item) => item.price))).map(
+                  (price, index) => (
+                    <option key={index} value={price}>
+                      ₹{price}
+                    </option>
+                  )
+                )}
               </select>
             </div>
           </div>

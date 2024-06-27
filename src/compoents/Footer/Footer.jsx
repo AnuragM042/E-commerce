@@ -10,7 +10,7 @@ const Footer = () => {
       className='flex flex-wrap mx-auto items-center justify-evenly py-5 h-full'
       style={{
         color: mode === 'dark' ? 'white' : 'white',
-        backgroundColor: mode === 'dark' ? 'grey' : 'black'
+        backgroundColor: mode === 'dark' ? 'black' : 'black'
       }}
     >
       <div className='flex flex-wrap justify-center items-start gap-5 w-full'>

@@ -28,3 +28,6 @@ import { doc, getDoc, getDocs, collection } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { addToCart } from "../../redux/CartSlice";
 import { fireDB } from "../../firebase/FirebaseConfig";
+
+
+1//0g1B5zF1IyRyJCgYIARAAGBASNwF-L9IrYDOAdlHtb0duJpt3WVgGKHpdwRvfo2VvAw6RwTAyhWYF6VWt-GCojNdQmSwryU-bjmo

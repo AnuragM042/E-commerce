@@ -4,7 +4,11 @@ import Layout from "../../compoents/Layout/Layout";
 import Modal from "../../compoents/modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../compoents/loader/Loader";
-import { deleteFromCart } from "../../redux/CartSlice";
+import {
+  deleteFromCart,
+  increaseQuantity,
+  decreaseQuantity,
+} from "../../redux/CartSlice";
 import { toast } from "react-toastify";
 import { addDoc } from "firebase/firestore";
 
@@ -13,7 +17,6 @@ function Cart() {
   const { mode } = context;
 
   const dispatch = useDispatch();
-
   const cartItems = useSelector((state) => state.cart);
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +34,7 @@ function Cart() {
   useEffect(() => {
     let temp = 0;
     cartItems.forEach((cartItem) => {
-      temp += parseInt(cartItem.price);
+      temp += parseFloat(cartItem.price) * cartItem.quantity;
     });
     setTotalAmount(temp);
   }, [cartItems]);
@@ -70,6 +73,8 @@ function Cart() {
       }),
     };
 
+
+      // Payment Gateway not working
     var options = {
       key: "", // Add your Razorpay key here
       key_secret: "", // Add your Razorpay secret here
@@ -114,7 +119,7 @@ function Cart() {
   return (
     <Layout>
       <div
-        className="bg-gray-100 pt-5"
+        className="bg-gray-100 pt-5 min-h-screen h-full"
         style={{
           backgroundColor: mode === "dark" ? "#282c34" : "",
           color: mode === "dark" ? "white" : "",
@@ -124,7 +129,8 @@ function Cart() {
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-2/3 overflow-y-auto">
             {cartItems.map((item, index) => {
-              const { id, title, price, description, imageUrl } = item;
+              const { id, title, price, description, imageUrl, quantity } =
+                item;
               return (
                 <div
                   key={index} // Ensure unique key prop
@@ -157,8 +163,23 @@ function Cart() {
                         className="mt-1 text-xs font-semibold text-gray-700"
                         style={{ color: mode === "dark" ? "white" : "" }}
                       >
-                        {price}
+                        ₹ {price} x {quantity}
                       </p>
+                      <div className="flex items-center mt-2">
+                        <button
+                          onClick={() => dispatch(decreaseQuantity(item))}
+                          className="bg-red-500 text-white px-2 py-1 rounded"
+                        >
+                          -
+                        </button>
+                        <p className="mx-2">{quantity}</p>
+                        <button
+                          onClick={() => dispatch(increaseQuantity(item))}
+                          className="bg-green-500 text-white px-2 py-1 rounded"
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                     <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                       <svg
@@ -201,7 +222,7 @@ function Cart() {
                 className="text-gray-700"
                 style={{ color: mode === "dark" ? "white" : "" }}
               >
-                {totalAmount}
+                ₹ {totalAmount}
               </p>
             </div>
             <div className="flex justify-between">
@@ -215,7 +236,7 @@ function Cart() {
                 className="text-gray-700"
                 style={{ color: mode === "dark" ? "white" : "" }}
               >
-                {shipping}
+                ₹ {shipping}
               </p>
             </div>
             <hr className="my-4" />
@@ -231,19 +252,20 @@ function Cart() {
                   className="mb-1 text-lg font-bold"
                   style={{ color: mode === "dark" ? "white" : "" }}
                 >
-                  {grandTotal}
+                  ₹ {grandTotal}
                 </p>
               </div>
             </div>
-            {/* <Modal /> */}
             <Modal
               name={name}
               pincode={pincode}
               phoneNumber={phoneNumber}
+              address={address}
               setName={setName}
               setPincode={setPincode}
               setPhoneNumber={setPhoneNumber}
               buyNow={buyNow}
+              setAddress={setAddress}
             />
           </div>
         </div>
