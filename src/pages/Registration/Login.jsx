@@ -25,7 +25,7 @@ const Login = () => {
       const result = await signInWithEmailAndPassword(auth, email, password);
       toast.success("Login Successful");
       localStorage.setItem("user", JSON.stringify(result));
-      navigate('/');
+      navigate('/home');
     } catch (error) {
       console.log(error);
       toast.error("Sign in Error");
@@ -37,7 +37,7 @@ const Login = () => {
   return (
     <div className="">
        
-      {loading && <Loader />}
+      {/* {loading && <Loader />} */}
       <div className="relative flex h-screen w-full items-center justify-center">
       <video
   autoPlay

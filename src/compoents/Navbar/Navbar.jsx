@@ -66,7 +66,7 @@ const Navbar = () => {
               <div className="flex space-x-4">
                 <NavLink
                   exact="true"
-                  to="/"
+                  to="/home"
                   className={({ isActive }) =>
                     isActive
                       ? "bg-gray-700 text-white rounded-md px-2 py-2 text-sm font-medium"
@@ -85,7 +85,7 @@ const Navbar = () => {
                 >
                   All Products
                 </NavLink>
-                {user && user.user.email !== "anurazzz.mishra098@gmail.com" && (
+                {/* {user && user.user.email !== "anurazzz.mishra098@gmail.com" && (
                   <NavLink
                     to="/order"
                     className={({ isActive }) =>
@@ -96,7 +96,7 @@ const Navbar = () => {
                   >
                     Order
                   </NavLink>
-                )}
+                )} */}
                 {user && user.user.email === "anurazzz.mishra098@gmail.com" && (
                   <NavLink
                     to="/dashboard"
@@ -110,7 +110,7 @@ const Navbar = () => {
                   </NavLink>
                 )}
                 <NavLink
-                  to="/login"
+                  to="/"
                   className={({ isActive }) =>
                     isActive
                       ? "bg-gray-700 text-white rounded-md px-2 py-2 text-sm font-medium"
@@ -158,7 +158,7 @@ const Navbar = () => {
         <div className="space-y-1 px-2 pb-3 pt-2">
           <NavLink
             exact="true"
-            to="/"
+            to="/home"
             className={({ isActive }) =>
               isActive
                 ? "bg-gray-700 text-white block rounded-md px-2 py-2 text-base font-medium"
@@ -179,7 +179,7 @@ const Navbar = () => {
           >
             All Products
           </NavLink>
-          {user && user.user.email !== "anurazzz.mishra098@gmail.com" && (
+          {/* {user && user.user.email !== "anurazzz.mishra098@gmail.com" && (
             <NavLink
               to="/order"
               className={({ isActive }) =>
@@ -191,7 +191,7 @@ const Navbar = () => {
             >
               Order
             </NavLink>
-          )}
+          )} */}
           {user && user.user.email === "anurazzz.mishra098@gmail.com" && (
             <NavLink
               to="/dashboard"

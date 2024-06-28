@@ -7,6 +7,7 @@ import { addDoc, collection } from "firebase/firestore";
 const Fancy = () => {
   const [name, setName] = useState("");
   const [comments, setComments] = useState("");
+  const [isTextExpanded, setIsTextExpanded] = useState(false);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -37,21 +38,24 @@ const Fancy = () => {
     }
   };
 
+  const toggleTextExpanded = () => {
+    setIsTextExpanded(!isTextExpanded);
+  };
+
   return (
-    <div className="relative flex h-screen w-full items-center justify-center">
+    <div className="relative flex  h-screen w-full items-center justify-center">
       <video
         autoPlay
         loop
         muted
-        className="absolute z-0 w-full h-screen object-cover transform rotate-0"
+        className="absolute z-0 w-full h-full object-cover transform rotate-0"
       >
         <source src={backgroundVideo} type="video/mp4" />
       </video>
       {/* Task  here */}
-      <div className="w-[70%] h-[700px] bg-slate-500 bg-opacity-10 rounded-xl backdrop-blur-3xl text-white p-10">
+      <div className="sm:w-[70%] w-full min-h-[700px] bg-slate-500 bg-opacity-10 rounded-xl backdrop-blur-3xl text-white p-10">
         <h1 className="text-2xl text-center">Welcome to Star-Merchs</h1>
         <div className="flex flex-col mt-5 space-y-5">
-        
           {/* Additional Links */}
           <div className="flex flex-col mt-4 space-y-4">
             <NavLink
@@ -83,49 +87,73 @@ const Fancy = () => {
               Logout
             </NavLink>
           </div>
-          <p>
+          <div>
             <h2>Welcome to Star Wars Merchs</h2>
             <p>
-              Explore the galaxy of Star Wars like never before at Star Wars
-              Merchs. Step into a universe filled with legendary heroes, iconic
-              battles, and timeless adventures. Whether you're a Jedi Knight, a
-              daring smuggler, or a loyal droid, our shop is your gateway to an
-              unparalleled collection of Star Wars merchandise.
+              {isTextExpanded ? (
+                <>
+                  Explore the galaxy of Star Wars like never before at Star Wars
+                  Merchs. Step into a universe filled with legendary heroes,
+                  iconic battles, and timeless adventures. Whether you're a Jedi
+                  Knight, a daring smuggler, or a loyal droid, our shop is your
+                  gateway to an unparalleled collection of Star Wars
+                  merchandise.
+                </>
+              ) : (
+                <>
+                  Explore the galaxy of Star Wars like never before at Star Wars
+                  Merchs. Step into a universe filled with legendary heroes,
+                  iconic battles, and timeless adventures. Whether you're a
+                  Jedi...
+                </>
+              )}
             </p>
-          </p>
-          <div className="flex flex-col gap-4 ">
+            <button
+              onClick={toggleTextExpanded}
+              className="text-blue-500 underline focus:outline-none"
+            >
+              {isTextExpanded ? "Read less" : "Read more"}
+            </button>
+          </div>
+          <div className="flex flex-col gap-4">
             {/* Name Input */}
             <input
-            type="text"
-            value={name}
-            onChange={handleNameChange}
-            placeholder="Your Name"
-            className="p-2 rounded-lg text-black border border-gray-300 focus:outline-none"
-            style={{ width: "100%", maxWidth: "50%", margin: "auto" }}
-          />
-          {/* Comments Input */}
-          <textarea
-            value={comments}
-            onChange={handleCommentsChange}
-            placeholder="Your Comments..."
-            className="p-2 rounded-lg text-black border mt-3 border-gray-300 focus:outline-none"
-            style={{
-              width: "100%",
-              maxWidth: "50%",
-              margin: "auto",
-              resize: "vertical",
-            }}
-            rows={4}
-          />
-          {/* Send Button */}
-          <button
-            onClick={handleSendMessage}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
-            style={{ width: "50%", maxWidth: "25%", margin: "auto" }}
-          >
-            Send Message
-          </button>
-        </div>
+              type="text"
+              value={name}
+              onChange={handleNameChange}
+              placeholder="Your Name"
+              className="p-2 rounded-lg text-black border border-gray-300 focus:outline-none"
+              style={{
+                width: "100%",
+                minWidth: "50%",
+                maxWidth: "60%",
+                margin: "auto",
+              }}
+            />
+            {/* Comments Input */}
+            <textarea
+              value={comments}
+              onChange={handleCommentsChange}
+              placeholder="Your Comments..."
+              className="p-2 rounded-lg text-black border mt-3 border-gray-300 focus:outline-none"
+              style={{
+                width: "100%",
+                minWidth: "50%",
+                maxWidth: "60%",
+                margin: "auto",
+                resize: "vertical",
+              }}
+              rows={4}
+            />
+            {/* Send Button */}
+            <button
+              onClick={handleSendMessage}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
+              style={{ width: "50%", minWidth: "25%", margin: "auto" }}
+            >
+              Send Message
+            </button>
+          </div>
           <p className="text-sm">
             This is a beta version and a personal project. Please leave some
             comments so I can improve.

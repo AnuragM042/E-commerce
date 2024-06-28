@@ -1,15 +1,13 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import background from "../../assets/Starwars-background2.webp";
-import logo from "../../assets/Starwars-logo2.webp";
-// import backgroundVideo from "../../assets/republic-symbol2.mp4";
 import backgroundVideo from "../../assets/starwars.mp4";
+import logo from "../../assets/Starwars-logo2.webp";
 import myContext from "../../context/data/MyContext";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, fireDB } from "../../firebase/FirebaseConfig";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import Loader from "../../compoents/loader/Loader";
 
 const Signup = () => {
@@ -17,18 +15,37 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const [error, setError] = useState(""); // State for error messages
 
   const context = useContext(myContext);
   const { loading, setLoading } = context;
+
+  const validatePassword = (password) => {
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long");
+      return false;
+    }
+    setError("");
+    return true;
+  };
 
   const signup = async (e) => {
     e.preventDefault();
     if (name === "" || email === "" || password === "") {
       return toast.error("Please fill all details");
     }
+
+    if (!validatePassword(password)) {
+      return;
+    }
+
     setLoading(true);
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       console.log(userCredential);
 
       const user = {
@@ -55,12 +72,8 @@ const Signup = () => {
   return (
     <div>
       {loading && <Loader />}
-     
-        <div
-          className="flex h-screen w-full items-center justify-center bg-gray-900 bg-cover bg-no-repeat"
-          // style={{ backgroundImage: `url(${background})` }}
-        >
-            <video
+      <div className="flex h-screen w-full items-center justify-center bg-gray-900 bg-cover bg-no-repeat">
+        <video
           autoPlay
           loop
           muted
@@ -77,7 +90,9 @@ const Signup = () => {
                   className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40"
                   alt="Starwars Logo"
                 />
-                <h1 className="mb-2 text-xl md:text-2xl lg:text-3xl">Starwars</h1>
+                <h1 className="mb-2 text-xl md:text-2xl lg:text-3xl">
+                  Starwars
+                </h1>
                 <span className="text-gray-300 text-sm md:text-base lg:text-lg">
                   Enter Signup Details
                 </span>
@@ -112,9 +127,15 @@ const Signup = () => {
                     name="password"
                     placeholder="*********"
                   />
-                  <div className="absolute right-5 top-3 cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
+                  <div
+                    className="absolute right-5 top-3 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
                     {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
                   </div>
+                  {error && (
+                    <p className="text-red-500 text-sm mt-2">{error}</p>
+                  )}
                 </div>
                 <div className="mt-8 flex justify-center text-base md:text-lg text-black">
                   <button
@@ -126,7 +147,7 @@ const Signup = () => {
                 </div>
                 <div className="flex gap-2 mt-4">
                   <p>Have an account?</p>
-                  <Link to={"/login"}>
+                  <Link to={"/"}>
                     <span className=" font-bold underline cursor-pointer">
                       Log in
                     </span>
@@ -134,10 +155,9 @@ const Signup = () => {
                 </div>
               </form>
             </div>
-            </div>
           </div>
         </div>
-     
+      </div>
     </div>
   );
 };

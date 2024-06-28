@@ -74,7 +74,7 @@ function Cart() {
     };
 
 
-      // Payment Gateway not working
+      // Payment Gateway not
     var options = {
       key: "", // Add your Razorpay key here
       key_secret: "", // Add your Razorpay secret here

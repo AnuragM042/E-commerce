@@ -28,7 +28,8 @@ function App() {
       <MyState>
         <Router>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/allproducts" element={<AllProducts />} />
             {/*for Users*/}
             <Route
@@ -50,9 +51,9 @@ function App() {
                 </ProtectedRouteForAdmin>
               }
             />
-            <Route path="/login" element={<Login />} />
+
             <Route path="/signup" element={<Signup />} />
-            
+
             <Route
               path="/productinfo/:id"
               element={
@@ -63,7 +64,7 @@ function App() {
             />
             <Route path="/modal" element={<Modal />} />
             <Route path="/addproduct" element={<AddProduct />} />
-            <Route path="/fancy" element={<Fancy/>} />
+            <Route path="/fancy" element={<Fancy />} />
             <Route path="/updateproduct" element={<UpdateProduct />} />
             <Route path="/*" element={<NoPage />} />
           </Routes>

@@ -12,7 +12,7 @@ function ProductCard() {
   const context = useContext(myContext);
   const {
     mode,
-    product,
+    product = [], // Provide a default value of an empty array
     searchkey = "",
     filterType = "",
     filterPrice = "",
@@ -38,15 +38,21 @@ function ProductCard() {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const filteredProducts = product
-    .filter((obj) => obj.title.toLowerCase().includes(searchkey.toLowerCase()))
-    .filter((obj) =>
-      obj.category.toLowerCase().includes(filterType.toLowerCase())
-    )
-    .filter((obj) =>
-      filterPrice ? parseFloat(obj.price) === parseFloat(filterPrice) : true
-    )
-    .slice(0, 4);
+  const filterProducts = () => {
+    return product
+      .filter((obj) =>
+        obj.title.toLowerCase().includes(searchkey.toLowerCase())
+      )
+      .filter((obj) =>
+        obj.category.toLowerCase().includes(filterType.toLowerCase())
+      )
+      .filter((obj) =>
+        filterPrice ? parseFloat(obj.price) === parseFloat(filterPrice) : true
+      )
+      .slice(0, 4);
+  };
+
+  const filteredProducts = filterProducts();
 
   useEffect(() => {
     cardsRef.current.forEach((card, index) => {
@@ -90,7 +96,7 @@ function ProductCard() {
 
   return (
     <section className="text-gray-600 body-font">
-      <div className="container px-5 py-8 md:py-16 mx-auto flex flex-col items-center justify-center">
+      <div className="container px-5 py-8 md:py-16 mx-auto flex flex-col ">
         <div className="lg:w-1/2 w-full mb-6 lg:mb-10">
           <h1
             className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900"
@@ -99,12 +105,12 @@ function ProductCard() {
             Check out the Goodies
           </h1>
           <div
-            className="h-1 w-28   rounded"
+            className="h-1 w-28 rounded"
             style={{ backgroundColor: mode === "dark" ? "white" : "red" }}
           ></div>
         </div>
 
-        <div className="flex -m-4 overflow-x-auto">
+        <div className="flex -m-4 overflow-x-scroll">
           {filteredProducts.map((item, index) => {
             const { title, price, description, imageUrl, category, id } = item;
             return (

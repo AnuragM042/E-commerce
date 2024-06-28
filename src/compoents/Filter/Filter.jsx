@@ -28,7 +28,7 @@ function Filter() {
 
   return (
     <div>
-      <div className="container mx-auto px-4 mt-5 w-[50%]">
+      <div className="container mx-auto px-4 mt-5 sm:w-[50%] max-w-full">
         <div
           className="p-5 rounded-lg bg-gray-100 bg-transparent drop-shadow-xl border border-gray-200"
           style={{
@@ -51,7 +51,7 @@ function Filter() {
             <input
               type="text"
               value={searchkey}
-              onChange={(e) => setSearchkey(e.target.value)}
+              onChange={(e) => setSearchkey(e.target.value.toLowerCase())}
               name="searchkey"
               id="searchkey"
               placeholder="Search here"
@@ -84,7 +84,7 @@ function Filter() {
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
               <select
                 value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
+                onChange={(e) => setFilterType(e.target.value.toLowerCase())}
                 className="px-4 py-3 w-full rounded-md bg-gray-50 border-transparent outline-0 focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
                 style={{
                   backgroundColor: mode === "dark" ? "rgb(64 66 70)" : "",
@@ -92,13 +92,13 @@ function Filter() {
                 }}
               >
                 <option value="">Select Category</option>
-                {Array.from(new Set(product.map((item) => item.category))).map(
-                  (category, index) => (
-                    <option key={index} value={category}>
-                      {category}
-                    </option>
-                  )
-                )}
+                {Array.from(
+                  new Set(product.map((item) => item.category.toLowerCase()))
+                ).map((category, index) => (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
+                ))}
               </select>
               <select
                 value={filterPrice}
